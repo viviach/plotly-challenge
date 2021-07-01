@@ -4,6 +4,6 @@
 //     console.log(Data);  
 //     });
 
-d3.json("plotly-challenge/samples.json").then((Data) => {
-    console.log(Data);  
+d3.json("data/samples.json").then((Data) => {
+    console.log(Data)  
     });
