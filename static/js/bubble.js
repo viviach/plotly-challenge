@@ -4,10 +4,10 @@ d3.json("data/samples.json").then(function(data) {
 });
   
 // On change to the DOM, call getData()
-d3.selectAll("#selDataset").on("change",barchar);
+d3.selectAll("#selDataset").on("change",bubblechar, barchar);
 
 //we will create a function to get an ID from a dropdown menu
-function barchar() {
+function bubblechar() {
     d3.json("data/samples.json").then(function(data) {
         var names =Object.values(data.names);
         //define the Menu
@@ -34,69 +34,39 @@ function barchar() {
             //print the result
             //console.log(id_value);
             //retrieve otu_ids
-            var otu_ids=Object.values(id[1]);
-            // Slice the first 10 objects for plotting
-            var slicedOtu_ids = otu_ids.slice(0, 10);
-            //reversedSlicedOtu_ids = slicedOtu_ids.reverse()
-            //print the result
-            //console.log (slicedOtu_ids);
+            var otu_ids=Object.values(id[1]);          
             //retrieve sample_values
             var sample_values=Object.values(id[2]);
-            // Slice the first 10 objects for plotting
-            var slicedSample_values = sample_values.slice(0, 10);
-            reversedSample_values= slicedSample_values.reverse()
-            //print the result
-            //console.log (slicedSample_values);
             //retrieve otu_labels
             var otu_labels=Object.values(id[3]);
-            // Slice the first 10 objects for plotting
-            var slicedOtu_labels = otu_labels.slice(0, 10);
-            
-            //print the result
-            //console.log (slicedOtu_labels);
 
         if (selectedOption===id_value){
             //console.log (id)
-            var data_sample=[id_value, slicedOtu_ids, reversedSample_values, slicedOtu_labels]
-            console.log(data_sample) 
+            var id_data=[id_value, otu_ids, sample_values, otu_labels]
+            console.log(id_data) 
             function init() {
-                data_bar = [{
-                   x: data_sample[2],
-                   y: data_sample[3],
-                   type:"bar",
-                   orientation: "h"
+                data = [{
+                   x: id_data[1],
+                   y: id_data[2],
+                   text: id_data[3],
+                   mode: "markers",
+                   marker:{
+                       size:id_data[2],
+                       color:id_data[1] 
+                   }
+                   
                }];
 
-               var layout_bar = {
-                title: "Top 10 Bacteria Cultures Found",
+               var layout = {
+                title: "Bacteria Cultures Per Sample",
               };
 
-                 var CHART_bar = d3.selectAll("#bar").node();
+                 var CHART = d3.selectAll("#bubble").node();
                
-                 Plotly.newPlot(CHART_bar, data_bar,layout_bar);
+                 Plotly.newPlot(CHART, data,layout);
                }
-               var data_pop=[id_value, otu_ids, sample_values, otu_labels]
-               data_bubble = [{
-                x: data_pop[1],
-                y: data_pop[2],
-                text: data_pop[3],
-                mode: "markers",
-                marker:{
-                    size:data_pop[2],
-                    color:data_pop[1] 
-                }
-                
-                }];
-
-                var layout_bubble = {
-                title: "Bacteria Cultures Per Sample",
-                };
-
-                var CHART_bubble = d3.selectAll("#bubble").node();
-            
-                Plotly.newPlot(CHART_bubble, data_bubble,layout_bubble);
-                           
-            init()    
+               
+               init()           
             }
             else {
                 console.log("false");
@@ -105,7 +75,7 @@ function barchar() {
     });
 };
 
-barchar()
+bubblechar()
 
 
 
