@@ -24,6 +24,21 @@ function charts() {
         // Assign the dropdownmenu option selected to a variable
         var selectedOption = dropdownMenu.property("value");
         console.log(selectedOption);
+
+        // createMetadataChart(data.metadata, selectedOption);
+        var metadata = data.metadata;
+        var filtedArray = metadata.filter(obj => obj.id == selectedOption)
+        console.log(filtedArray)
+        var currMetadata = filtedArray[0];
+
+        var metaPanel = d3.select("#sample-metadata");
+        metaPanel.html("");
+
+        Object.entries(currMetadata).forEach(([k, v]) => {
+            metaPanel.append("p").html(`<b>${k}:</b> ${v}`);
+        })
+
+
         //We will retrieve the data from samples array
         var samples =Object.values(data.samples);
         samples.forEach((i)=>{
@@ -100,6 +115,21 @@ function charts() {
 };
 
 charts()
+
+// function createMetadataChart(metadata, selId) {
+//     var filtedArray = metadata.filter(obj => obj.id == selId)
+//     var currMetadata = filtedArray[0];
+
+//     console.log(currMetadata);
+
+//     var metaPanel = d3.select("#sample-metadata");
+//     metaPanel.html("");
+
+//     Object.entries(currMetadata).forEach(([k, v]) => {
+//         metaPanel.append("p").html(`<b>${k}:</b> ${v}`);
+//     })
+
+// }
 
 
 
